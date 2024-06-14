@@ -8,11 +8,31 @@ class CharacterProvider extends ChangeNotifier {
   final KeyValueStorageServices keyValueStorageServices;
 
   List<Character> characters = [];
+  List<Character> filteredCharacters = [];
   int currentPage = 1;
   int totalPages = 1;
   bool isLoading = false;
+  String _searchText = '';
 
   final ScrollController scrollController = ScrollController();
+
+  String get searchText => _searchText;
+  set searchText(String text) {
+    _searchText = text;
+    filterCharacters();
+  }
+
+  void filterCharacters() {
+    if (searchText.isEmpty) {
+      filteredCharacters = characters;
+    } else {
+      filteredCharacters = characters
+          .where((character) =>
+              character.name.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+    }
+    notifyListeners();
+  }
 
   CharacterProvider(
       {required this.characterService, required this.keyValueStorageServices}) {
@@ -55,6 +75,7 @@ class CharacterProvider extends ChangeNotifier {
       keyValueStorageServices.setKeyValue<String>(
           'GetCharactersResponse', getCharactersResponse.toJson());
     }
+    filterCharacters();
     isLoading = false;
     notifyListeners();
   }
