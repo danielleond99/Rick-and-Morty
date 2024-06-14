@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:rick_and_morty/models/export.dart';
+import 'package:rick_and_morty/screens/export.dart';
 import 'package:rick_and_morty/widgets/custom_cached_network_image.dart';
 
 class CharacterListItem extends StatelessWidget {
@@ -16,7 +17,14 @@ class CharacterListItem extends StatelessWidget {
       ),
       title: Text(character.name),
       subtitle: Text('${character.status} - ${character.species}'),
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CharacterDetailScreen(character: character),
+          ),
+        );
+      },
     );
   }
 }
