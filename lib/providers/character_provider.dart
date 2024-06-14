@@ -1,8 +1,9 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 import 'package:rick_and_morty/models/export.dart';
 import 'package:rick_and_morty/services/export.dart';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class CharacterProvider extends ChangeNotifier {
   final CharacterService characterService;
@@ -54,7 +55,11 @@ class CharacterProvider extends ChangeNotifier {
             getCharactersResponse.infoGetCharactersResponse.currentPage;
         totalPages = getCharactersResponse.infoGetCharactersResponse.pages;
       }
-      fetchCharacters();
+      if (characters.isEmpty && currentPage <= totalPages) {
+        fetchCharacters();
+      } else {
+        filterCharacters();
+      }
     });
   }
 
