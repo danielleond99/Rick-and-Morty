@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:rick_and_morty/providers/character_provider.dart';
+import 'package:rick_and_morty/providers/export.dart';
 import 'package:rick_and_morty/widgets/export.dart';
 
 import 'package:provider/provider.dart';
@@ -18,6 +18,9 @@ class CharacterListScreen extends StatelessWidget {
                 text;
           },
         ),
+        actions: const [
+          ThemeButton(),
+        ],
       ),
       body: SafeArea(
         child: Consumer<CharacterProvider>(

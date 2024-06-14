@@ -11,14 +11,19 @@ class CustomSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SearchBar(
+    const inputBorder =
+        UnderlineInputBorder(borderSide: BorderSide(color: Colors.white));
+    const textStyle = TextStyle(color: Colors.white);
+    return TextField(
+      cursorColor: Colors.white,
+      decoration: InputDecoration(
+        enabledBorder: inputBorder,
+        focusedBorder: inputBorder,
+        hintText: hintText,
+        hintStyle: textStyle,
+      ),
+      style: textStyle,
       onChanged: onChanged,
-      hintText: hintText,
-      overlayColor: const MaterialStatePropertyAll(Colors.transparent),
-      elevation: const MaterialStatePropertyAll(0),
-      shape: const MaterialStatePropertyAll(
-          LinearBorder(bottom: LinearBorderEdge(size: 1))),
-      side: const MaterialStatePropertyAll(BorderSide(color: Colors.black)),
     );
   }
 }

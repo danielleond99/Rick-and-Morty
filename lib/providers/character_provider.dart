@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 import 'package:rick_and_morty/models/export.dart';
@@ -58,7 +59,12 @@ class CharacterProvider extends ChangeNotifier {
   }
 
   Future<void> fetchCharacters() async {
-    if (isLoading) return;
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+
+    if (isLoading || connectivityResult.contains(ConnectivityResult.none)) {
+      return;
+    }
     isLoading = true;
     notifyListeners();
     final GetCharactersResponse? getCharactersResponse =
