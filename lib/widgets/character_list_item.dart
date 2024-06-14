@@ -12,8 +12,11 @@ class CharacterListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CustomCachedNetworkImage(
-        imageUrl: character.image,
+      leading: Hero(
+        tag: 'characterImage${character.id}',
+        child: CustomCachedNetworkImage(
+          imageUrl: character.image,
+        ),
       ),
       title: Text(character.name),
       subtitle: Text('${character.status} - ${character.species}'),

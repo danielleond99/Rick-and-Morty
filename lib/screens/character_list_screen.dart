@@ -11,7 +11,7 @@ class CharacterListScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: 1,
           itemBuilder: (context, index) => CharacterListItem(
               character: Character.fromMap({
             "id": 361,

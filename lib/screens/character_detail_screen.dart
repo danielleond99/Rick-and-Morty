@@ -20,8 +20,11 @@ class CharacterDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CustomCachedNetworkImage(
-                imageUrl: character.image,
+              Hero(
+                tag: 'characterImage${character.id}',
+                child: CustomCachedNetworkImage(
+                  imageUrl: character.image,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
