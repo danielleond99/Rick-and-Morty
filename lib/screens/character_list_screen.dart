@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:rick_and_morty/models/export.dart';
+import 'package:rick_and_morty/providers/character_provider.dart';
 import 'package:rick_and_morty/widgets/character_list_item.dart';
+
+import 'package:provider/provider.dart';
 
 class CharacterListScreen extends StatelessWidget {
   const CharacterListScreen({super.key});
@@ -10,30 +12,24 @@ class CharacterListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (context, index) => CharacterListItem(
-              character: Character.fromMap({
-            "id": 361,
-            "name": "Toxic Rick",
-            "status": "Dead",
-            "species": "Humanoid",
-            "type": "Rick's Toxic Side",
-            "gender": "Male",
-            "origin": {
-              "name": "Alien Spa",
-              "url": "https://rickandmortyapi.com/api/location/64"
-            },
-            "location": {
-              "name": "Earth",
-              "url": "https://rickandmortyapi.com/api/location/20"
-            },
-            "image":
-                "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
-            "episode": ["https://rickandmortyapi.com/api/episode/27"],
-            "url": "https://rickandmortyapi.com/api/character/361",
-            "created": "2018-01-10T18:20:41.703Z"
-          })),
+        child: Consumer<CharacterProvider>(
+          builder: (context, characterProvider, child) {
+            return characterProvider.isLoading &&
+                    characterProvider.characters.isEmpty
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    controller: characterProvider.scrollController,
+                    itemCount: characterProvider.characters.length +
+                        (characterProvider.isLoading ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == characterProvider.characters.length) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      final character = characterProvider.characters[index];
+                      return CharacterListItem(character: character);
+                    },
+                  );
+          },
         ),
       ),
     );

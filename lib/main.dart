@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:rick_and_morty/providers/export.dart';
 import 'package:rick_and_morty/screens/export.dart';
+import 'package:rick_and_morty/services/export.dart';
 
-void main() {
+import 'package:provider/provider.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await KeyValueStorageServices().init();
   runApp(const MainApp());
 }
 
@@ -11,9 +17,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Rick and Morty',
-      home: SplashScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) => CharacterProvider(
+                characterService: CharacterServiceImpl(),
+                keyValueStorageServices: KeyValueStorageServices())),
+      ],
+      child: const MaterialApp(
+        title: 'Rick and Morty',
+        home: SplashScreen(),
+      ),
     );
   }
 }
